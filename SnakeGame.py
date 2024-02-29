@@ -35,7 +35,7 @@ class Snake:
             self.image = pygame.Surface((parent.size - 1, parent.size - 1))
             self.rect = pygame.Rect(0, 0, 10, 10)
             self.rect.center = pos
-            self.image.fill(pygame.Color("blue"))
+            self.image.fill(pygame.Color("Yellow"))
             parent.length.append(self)
 
     def update(self):
@@ -86,7 +86,7 @@ class Snake:
         self.length[-1].image.fill(pygame.Color("green"))
         for i in self.length:
             win.blit(i.image, i.rect.topleft)
-        self.length[-1].image.fill(pygame.Color("blue"))
+        self.length[-1].image.fill(pygame.Color("Yellow"))
         win.blit(self.fruit, self.fruit_pos - pygame.Vector2(self.size // 2, self.size // 2))
         pygame.draw.line(win, pygame.Color('white'), (0, 500), (500, 500), 3)
         win.blit(text_box('Score - ' + str(self.score)), (10, 510))
