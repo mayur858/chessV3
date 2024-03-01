@@ -27,6 +27,10 @@ def game_loop():
         if board.is_stalemate():
             print("\nGAME DRAW")
             return
+        
+        if board.is_insufficient_material():
+            print('Draw')
+            return
 
 
 game_loop()
