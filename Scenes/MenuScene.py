@@ -7,7 +7,8 @@ import pygame
 class MenuScene(Scene):
     def __init__(self):
         super().__init__("menu")
-        self.hint = format_text("Press Enter To Continue", pygame.Color("black"), 50)
+        self.hint = format_text("Press Enter To Continue",
+                                pygame.Color("black"), 50)
 
     def update(self):
         for event in App.inputs:
@@ -15,7 +16,7 @@ class MenuScene(Scene):
                 if event.key == pygame.K_RETURN:
                     SceneManager.change_scene("game")
 
-        App.display.blit(self.hint, self.hint.get_rect())
+        self.display.blit(self.hint, self.hint.get_rect())
 
 
 MenuScene()

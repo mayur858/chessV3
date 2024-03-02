@@ -1,21 +1,21 @@
 import pygame
+from Engine.Shared import Shared
 
 
-class SceneManager:
+class SceneManager(Shared):
     scenes: dict = dict()
     active_scene = None
-    display = None
 
     @classmethod
-    def add_scene(cls, name: str, scene):
+    def add_scene(cls, name: str, scene) -> None:
         if name in cls.scenes.keys():
-            raise Exception("Scene with name " + name + " already exist in the app")
-            return
+            raise Exception("Scene with name " + name +
+                            " already exist in the app")
 
         cls.scenes.update({name: scene})
 
     @classmethod
-    def change_scene(cls, name: str):
+    def change_scene(cls, name: str) -> None:
         if name in cls.scenes.keys():
             if cls.active_scene is not None:
                 cls.active_scene.on_unloaded()
@@ -25,23 +25,23 @@ class SceneManager:
             raise Exception("No scene like " + name + " is added in game")
 
     @classmethod
-    def update_scene(cls):
+    def update_scene(cls) -> None:
         if cls.active_scene is not None:
             cls.active_scene.update()
 
 
-class Scene:
-    def __init__(self, name):
+class Scene(Shared):
+    def __init__(self, name) -> None:
         self.name = name
-        self.all_sprites = pygame.sprite.Group()
+        self.sprites = pygame.sprite.Group()
         SceneManager.add_scene(name, self)
 
-    def update(self):
-        if len(self.all_sprites):
-            self.all_sprites.update()
-            self.all_sprites.draw(SceneManager.display)
+    def update(self) -> None:
+        if len(self.sprites):
+            self.sprites.update()
+            self.sprites.draw(self.display)
 
-    def on_loaded(self):
+    def on_loaded(self) -> None:
         print(self.name + " scene loaded")
 
     def on_unloaded(self):
