@@ -1,4 +1,4 @@
-from Engine.Utils import format_text
+from Engine import Utils
 from Engine.SceneManager import *
 from Engine.App import App
 import pygame
@@ -7,8 +7,12 @@ import pygame
 class MenuScene(Scene):
     def __init__(self):
         super().__init__("menu")
-        self.hint = format_text("Press Enter To Continue",
-                                pygame.Color("black"), 50)
+        self.hint = Utils.format_text("Press Enter To Start",
+                                      pygame.Color("black"), 50)
+        self.hintRect = self.hint.get_rect()
+
+        delta = Utils.get_center_anchor(self.hintRect.size)
+        self.hintRect = self.hintRect.move(delta)
 
     def update(self):
         for event in App.inputs:
@@ -16,7 +20,4 @@ class MenuScene(Scene):
                 if event.key == pygame.K_RETURN:
                     SceneManager.change_scene("game")
 
-        self.display.blit(self.hint, self.hint.get_rect())
-
-
-MenuScene()
+        self.display.blit(self.hint, self.hintRect)
