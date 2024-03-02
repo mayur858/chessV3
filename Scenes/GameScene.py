@@ -1,6 +1,7 @@
 from Engine.SceneManager import *
 from Engine.App import App
 from Engine.Utils import *
+from Engine import UI
 import pygame
 
 
@@ -32,18 +33,21 @@ class GameScene(Scene):
         self.init_board()
 
     def update(self):
-        super().update()
         for event in App.inputs:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     SceneManager.change_scene("menu")
 
+        super().update()
+
     def init_board(self):
         for row in range(0, 8):
             for col in range(0, 8):
-                box = BoardBox(color=pygame.Color("black") if (row + col) % 2 == 0 else pygame.Color("white"))
-                box.rect.topleft = (col * box.rect.width, row * box.rect.height)
-                self.all_sprites.add(box)
+                box = BoardBox(color=pygame.Color("black") if (
+                    row + col) % 2 == 0 else pygame.Color("white"))
+                box.rect.topleft = (col * box.rect.width,
+                                    row * box.rect.height)
+                self.sprites.add(box)
 
 
 GameScene()
