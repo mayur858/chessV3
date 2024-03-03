@@ -1,17 +1,6 @@
 import pygame
 from Engine.Shared import Shared
 
-pygame.font.init()
-
-
-def pos_between(pos_1, pos_2, check_pos) -> bool:
-    pos1 = pygame.Vector2(pos_1)
-    pos2 = pygame.Vector2(pos_2)
-    check = pygame.Vector2(check_pos)
-    if pos1.x < check.x < pos2.x and pos1.y < check.y < pos2.y:
-        return True
-    return False
-
 
 def get_size_from_percent(value: tuple) -> tuple:
     width = (Shared.display_resolution[0]/100) * value[0]

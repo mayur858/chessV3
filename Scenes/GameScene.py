@@ -45,7 +45,7 @@ class BoardBox(pygame.sprite.Sprite):
             self.image.fill(pygame.Color(self.color))
 
     def update(self):
-        if pos_between(self.rect.topleft, self.rect.bottomright, App.cursorPos):
+        if self.rect.collidepoint(App.cursorPos):
             self.update_state("hover")
             self.hover = True
         else:
@@ -74,7 +74,8 @@ class GameScene(Scene):
     def __init__(self):
         super().__init__("game")
         self.board = None
-        self.boardSprites: list = list()
+        self.visualBoard = UI.Grid(
+            (8, 8), (100, 100), self.display, "leftcenter")
 
     def on_loaded(self) -> None:
         self.board = chess.Board()
@@ -91,7 +92,7 @@ class GameScene(Scene):
                     self.on_select_button()
 
         self.update_board()
-        super().update()
+        self.visualBoard.update()
         if self.board.is_checkmate():
             print("Check Mate\nWinner Is", end=' ')
             print("BLACK" if self.board.turn else "WHITE")
@@ -101,29 +102,23 @@ class GameScene(Scene):
     def on_unloaded(self) -> None:
         super().on_unloaded()
         self.board = None
-        self.boardSprites.clear()
+        self.visualBoard.clear()
         BoardBox.allBoxes.clear()
 
     def init_board(self):
         alpha = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']
         for row in range(0, 8):
-            col_list = list()
             for col in range(0, 8):
-                box = BoardBox(color=pygame.Color("brown") if (
-                    row + col) % 2 == 0 else pygame.Color("white"))
-                box.rect.topleft = (col * box.rect.width,
-                                    row * box.rect.height)
+                color = "brown" if (row + col) % 2 == 0 else "white"
+                box = BoardBox(color=pygame.Color(color))
                 box.boardPos = alpha[col]+str(8-row)
-                col_list.append(box)
-            self.boardSprites.append(col_list)
-
-        self.sprites.add(self.boardSprites)
+                self.visualBoard.add_child(box)
 
     def update_board(self) -> None:
         board = list(str(self.board).replace(' ', '').split('\n'))
         for row in range(0, 8):
             for col in range(0, 8):
-                self.boardSprites[row][col].curPiece = board[row][col]
+                self.visualBoard.grid[row][col].curPiece = board[row][col]
 
     def on_select_button(self) -> bool:
         hoverBox = BoardBox.get_hovering()
