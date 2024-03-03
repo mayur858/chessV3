@@ -5,8 +5,8 @@ from Scenes.GameScene import GameScene
 
 
 def create_scenes():
-    MenuScene()
     GameScene()
+    MenuScene()
 
 
 def run_game():
