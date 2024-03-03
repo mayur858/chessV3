@@ -1,13 +1,17 @@
 from Engine.App import *
 from Engine.SceneManager import SceneManager
-import Scenes.GameScene
-import Scenes.MenuScene
+from Scenes.MenuScene import MenuScene
+from Scenes.GameScene import GameScene
+
+
+def create_scenes():
+    MenuScene()
+    GameScene()
 
 
 def run_game():
     game = App("Chess", (1000, 800))
-    print(game.display, Shared.display)
-    SceneManager.change_scene("menu")
+    create_scenes()
     game.start()
 
 

@@ -42,7 +42,7 @@ class Scene(Shared):
             self.sprites.draw(self.display)
 
     def on_loaded(self) -> None:
-        print(self.name + " scene loaded")
+        pass
 
-    def on_unloaded(self):
-        print(self.name + " scene unloaded")
+    def on_unloaded(self) -> None:
+        self.sprites.empty()
